@@ -47,13 +47,14 @@ public class MainActivity extends Activity implements OnClickListener {
 					.setContentText("Click Here!")
 					.setContentIntent(contentIntent);
 
-
 			/**
 			// Add some custom actions
 			builder.addAction(android.R.id.button1, "call back", contentIntent);
 			builder.addAction(android.R.id.button2, "call history", contentIntent);
 			builder.addAction(android.R.id.button3, "ignore", contentIntent);
 			*/
+			builder.addAction(android.R.id.button1, "call", contentIntent);
+			
 			// Apply an expanded style
 			NotificationCompat.BigTextStyle expandedStyle =
 					new NotificationCompat.BigTextStyle(builder);
