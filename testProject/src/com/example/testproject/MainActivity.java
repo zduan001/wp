@@ -1,0 +1,87 @@
+package com.example.testproject;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnClickListener {
+	private static final int NOTE_ID = 100;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Button button = new Button(this);
+		button.setText("Post New Notification");
+		button.setOnClickListener(this);
+		setContentView(button);
+	}
+
+	private Handler handler = new Handler();
+	private Runnable task = new Runnable() {
+		@Override
+		public void run() {
+			NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			Intent launchIntent = new Intent(getApplicationContext(),
+					MainActivity.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(
+					getApplicationContext(), 0, launchIntent, 0);
+			// Create notification with the time it was fired
+			NotificationCompat.Builder builder = new NotificationCompat.Builder(
+					MainActivity.this);
+			builder.setSmallIcon(R.drawable.ic_launcher)
+					.setTicker("Something Happened")
+					.setWhen(System.currentTimeMillis()).setAutoCancel(true)
+					.setDefaults(Notification.DEFAULT_SOUND)
+					.setContentTitle("We're Finished!")
+					.setContentText("Click Here!")
+					.setContentIntent(contentIntent);
+
+
+			/**
+			// Add some custom actions
+			builder.addAction(android.R.id.button1, "call back", contentIntent);
+			builder.addAction(android.R.id.button2, "call history", contentIntent);
+			builder.addAction(android.R.id.button3, "ignore", contentIntent);
+			*/
+			// Apply an expanded style
+			NotificationCompat.BigTextStyle expandedStyle =
+					new NotificationCompat.BigTextStyle(builder);
+			expandedStyle.bigText("Here is some additional text to be displayed when"
+			+ " the notification is in expanded mode. "
+			+ " I can fit so much more content into this giant view!");
+			
+			Notification note = expandedStyle.build();
+
+			//Notification note = builder.build();
+			// Post the notification
+			manager.notify(NOTE_ID, note);
+		}
+	};
+
+	@Override
+	public void onClick(View v) {
+		// Run 10 seconds after click
+		handler.postDelayed(task, 10000);
+		Toast.makeText(this, "Notification will post in 10 seconds",
+				Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}

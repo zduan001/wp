@@ -1,0 +1,5 @@
+INDEX VERSION 1.126+/home/david/gitLocation/wp/.metadata/.plugins/org.eclipse.jdt.core
+4226431669.index
+1644434189.index
+3588213560.index
+1460200243.index
